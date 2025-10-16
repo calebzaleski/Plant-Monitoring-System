@@ -1,32 +1,41 @@
-# Prerequisites
-*.d
-
-# Compiled Object files
-*.slo
-*.lo
-*.o
-*.obj
-
-# Precompiled Headers
-*.gch
-*.pch
-
-# Compiled Dynamic libraries
-*.so
-*.dylib
-*.dll
-
-# Fortran module files
-*.mod
-*.smod
-
-# Compiled Static libraries
-*.lai
-*.la
-*.a
-*.lib
-
-# Executables
-*.exe
-*.out
-*.app
+# Arduino build folders
+ #/build/
+ #*.tmp
+ #*.elf
+ #*.hex
+ #*.bin
+ #
+ ## OS generated files
+ #.DS_Store
+ #Thumbs.db
+ #
+ ## Arduino IDE specific
+ #*.log
+ #*.bak
+ #*.swp
+ #*.swo
+ #
+ ## Credentials
+ #wifi.h
+ #secrets.h
+ #
+ ## C/C++ compiled files (your pasted section)
+ #*.d
+ #*.slo
+ #*.lo
+ #*.o
+ #*.obj
+ #*.gch
+ #*.pch
+ #*.so
+ #*.dylib
+ #*.dll
+ #*.mod
+ #*.smod
+ #*.lai
+ #*.la
+ #*.a
+ #*.lib
+ #*.exe
+ #*.out
+ #*.app
