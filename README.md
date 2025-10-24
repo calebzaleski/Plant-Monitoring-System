@@ -1,9 +1,9 @@
 # Arduino Plant Project
 
-Hello everyone, my name is Caleb and this is my own personal plant monitoring system so it is very "janky". Very Basic coding head-knowledge is required to understand this project.
+Hello everyone, my name is **Caleb** and this is my own personal plant monitoring system so it is very "janky". Very Basic coding head-knowledge is required to understand this project.
 
 
-Help would be greatly appreciated and is always welcome. You can reach me a zPiProjects@gmail.com
+Help would be greatly appreciated and is always welcome. You can reach me at [zPiProjects Email](mailto:zPiProjects@gmail.com)
 
 Pre-requisites:
 
@@ -32,7 +32,7 @@ Raspberry Pi 3
 Raspberry Pi 4
 Raspberry Pi 400
 
-Note: Please note that I am assuming that you are powering your Pi's or Arduino's with sufficient power. If you don't (which I have experienced plenty of hair pulling hours due to) IT WILL NOT RUN CORRECTLY
+Note: Please note that I am assuming that you are powering your Pi's or Arduino's with sufficient power. If you don't (which I have experienced plenty of hair pulling hours due to) IT WILL NOT RUN CORRECTLY.
 
 
 
