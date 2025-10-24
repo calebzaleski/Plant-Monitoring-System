@@ -7,12 +7,15 @@
 #include <WiFiClientSecure.h>
 #include <DHT.h>
 #include <ReadyMail.h>
+#include <PubSubClient.h>
+
 #include "wifi.h"
 
-// ---------- Temp Sensor ----------
-#define DHTPIN 15      // GPIO pin connected to DATA
-#define DHTTYPE DHT22  // or DHT11
-DHT dht(DHTPIN, DHTTYPE);
+const char* mqtt_server = "192.168.1.30"; // Your broker’s local IP
+
+int i = 1;
+
+time_t currentTime;
 
 
 
@@ -48,7 +51,11 @@ int lastMinute = -1;
 
 WiFiClientSecure ssl_client;
 SMTPClient smtp(ssl_client);
+WiFiClient espClient;
+PubSubClient client(espClient);
 SMTPMessage msg;
+
+
 
 // ---------- SOIL SENSOR ----------
 String readSoil() {
@@ -57,12 +64,24 @@ String readSoil() {
     else if (soilValue <= 300) return "Soil Moisture: " + String(soilValue) + ". Soil is too wet.";
     else if (soilValue <= 500) return "Soil Moisture: " + String(soilValue) + ". Soil is just right.";
     else return "Soil Moisture: " + String(soilValue) + ". Soil is too dry.";
-}
-// ---------- TEMP + HUMITY SENSOR ----------
+} 
+/* // ---------- TEMP + HUMITY SENSOR ----------
 String readTemp() {
     float tempValue = dht.readTemperature(true); // °F
     float humidityValue = dht.readHumidity();
     return "It is " + String(tempValue) + "°F in the area and humidity is " + String(humidityValue) + "%";
+} */
+
+void pushMQTT() {
+    String commit = readSoil() + " | " + Time();
+    client.publish("Soil_Sensor/topic", commit.c_str());
+}
+
+void connectMQTT() {
+    while (!client.connected()) {
+        client.connect("PicoWClient");
+        delay(5000);
+    }
 }
 
 // ---------- WIFI ----------
@@ -99,10 +118,10 @@ void maintainWiFi() {
 }
 
 // ---------- EMAIL ----------
-void sendEmail(String subject, String body) {
+void sendEmail(String subject, String body, String to) {
     msg.headers.clear();
     msg.headers.add(rfc822_from, "Zpiprojects <Zpiprojects@gmail.com>");
-    msg.headers.add(rfc822_to, "Caleb <Caleb.zaleski@icloud.com>");
+    msg.headers.add(rfc822_to, to);
     msg.headers.add(rfc822_subject, subject);
     msg.text.body(body);
     msg.timestamp = time(nullptr);
@@ -149,6 +168,17 @@ time_t syncTime() {
 
     return now; // return current time
 }
+// ---------- TIME ----------
+
+String Time() {
+    time_t now = time(nullptr);              // get current epoch time
+    struct tm *timeinfo = localtime(&now);   // convert to local time
+
+    char buffer[20];
+    strftime(buffer, sizeof(buffer), "%Y-%m-%d %H:%M:%S", timeinfo); // format: YYYY-MM-DD HH:MM:SS
+
+    return String(buffer);                   // return as Arduino String
+}
 
 // ---------- BUTTON ----------
 void checkButton() {
@@ -156,7 +186,7 @@ void checkButton() {
     if (buttonState == LOW && lastButtonState == HIGH) {
         Serial.println("🔘 Button pressed! Sending email...");
         digitalWrite(LED_BUILTIN, HIGH);
-        sendEmail("Button Pressed", "Button was pressed!\n" + readSoil() + readTemp());
+        sendEmail("Button Pressed", "Button was pressed!\n" + readSoil()/* + readTemp()*/, "Caleb.Zaleski@icloud.com");
         digitalWrite(LED_BUILTIN, LOW);
     }
     lastButtonState = buttonState;
@@ -173,9 +203,9 @@ void checkScheduledEmail() {
     const int scheduledHours[] = {7, 13, 18, 19, 21};
     const int scheduledMinutes[] = {0, 0, 0, 0, 0}; // 7:00, 15:00, 19:56
 
-    for (int i = 0; i < 3; i++) {
+    for (int i = 0; i < 5; i++) {
         if (hour == scheduledHours[i] && minute == scheduledMinutes[i] && !emailSentThisMinute) {
-            sendEmail("Scheduled Soil Update", "Scheduled soil reading:\n" + readSoil() + readTemp());
+            sendEmail("Scheduled Soil Update", "Scheduled soil reading:\n" + readSoil()/* + readTemp()*/, "Caleb.Zaleski@icloud.com");
             emailSentThisMinute = true;
         }
     }
@@ -193,7 +223,13 @@ void setup() {
     pinMode(LED_BUILTIN, OUTPUT);
     pinMode(buttonPin, INPUT_PULLUP);
     digitalWrite(LED_BUILTIN, LOW);
-    dht.begin();          // Initialize the sensor
+    client.setServer(mqtt_server, 1883);
+    digitalWrite(LED_BUILTIN, HIGH);
+    digitalWrite(LED_BUILTIN, LOW);
+    delay(1000);
+
+
+    //dht.begin();          // Initialize the sensor
 
 
     // Keep trying to connect to Wi-Fi until successful
@@ -209,15 +245,18 @@ void setup() {
             delay(5000);
         }
     }
-
+    
+    connectMQTT();
+    
     // Wi-Fi connected, sync time
     time_t now = syncTime();
 
     // Send startup email only after Wi-Fi is ready
-    sendEmail("Pico W Online", "Device started successfully.\n" + readSoil() + readTemp());
+    sendEmail("Pico W Online", "Device started successfully.\n" + readSoil()/* + readTemp()*/, "Caleb.Zaleski@icloud.com");
 }
 // ---------- LOOP ----------
 void loop() {
+
     maintainWiFi();
 
     // Optionally re-sync NTP every hour or so
@@ -230,10 +269,22 @@ void loop() {
     // Use local time for scheduled emails
     checkScheduledEmail();
     checkButton();
-    delay(100);
 
-    //digitalWrite(LED_BUILTIN, HIGH);
-    //delay(50);
-    //digitalWrite(LED_BUILTIN, LOW);
-    //delay(50);
+    if (!client.connected()) {
+        connectMQTT();   // reconnect if needed
+    }
+    client.loop();  
+
+
+    if (i == 600) {
+    pushMQTT();
+    i = 1;
+    }
+    
+    
+    i++;
+
+    delay(100); // .1 second
+
+
 }
