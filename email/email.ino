@@ -1,290 +1,68 @@
-
-#define ENABLE_SMTP
-#define ENABLE_DEBUG
-
-#include <Arduino.h>
-#include <WiFi.h>
-#include <WiFiClientSecure.h>
-#include <DHT.h>
-#include <ReadyMail.h>
-#include <PubSubClient.h>
-
+#include "config.h"
 #include "wifi.h"
 
-const char* mqtt_server = "192.168.1.30"; // Your broker’s local IP
-
-int i = 1;
-
-time_t currentTime;
-
-
-
-//gmail cert
-const char* root_ca = \
-"-----BEGIN CERTIFICATE-----\n"
-"MIIDdzCCAl+gAwIBAgIJAKK+2XnZkYBfMA0GCSqGSIb3DQEBCwUAMFIxCzAJBgNV\n"
-"BAYTAlVTMRMwEQYDVQQIDApDYWxpZm9ybmlhMRQwEgYDVQQKDAtHb29nbGUgSW5j\n"
-"MRcwFQYDVQQDDA5Hb29nbGUgU1NMIFJvb3QwHhcNMjEwMTAxMDAwMDAwWhcNMzEw\n"
-"MTAxMDAwMDAwWjBSMQswCQYDVQQGEwJVUzETMBEGA1UECAwKQ2FsaWZvcm5pYTEU\n"
-"MBIGA1UECgwLR29vZ2xlIEluYzEXMBUGA1UEAwwOR29vZ2xlIFNTTCBSb290MIIB\n"
-"IjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAs0Yq1X7L4VYJbg9RJ87bHwZL\n"
-"2rPNzZ5ZKZ/cB4hF8uVYwU5skY5Q2NJ5b3xB5d70tL+KMzz2GqOa5F7lP9BrgTPB\n"
-"eXu6Xb2+sbkMfZ6uPq3/LmTQmFBvVbQbP7sRZyRllUu6e8b1g+4u8sFJoTGQjOQk\n"
-"2/fCcxJf0q4pU1b7lwIDAQABo1AwTjAdBgNVHQ4EFgQU1NflO6YjGnm/vG6mKrF+\n"
-"9WhC1BswHwYDVR0jBBgwFoAU1NflO6YjGnm/vG6mKrF+9WhC1BswDAYDVR0TBAUw\n"
-"AwEB/zANBgkqhkiG9w0BAQsFAAOCAQEAo/71S1ymL6tDypV1kMlQ9oVnB0Dzxy9R\n"
-"ZyR5P5J2oE3VfyKzRzP7l3TQ1hLwTnro7DrC1cn4xnZxLx5N+0EwIDAQAB\n"
-"-----END CERTIFICATE-----\n";
-
-// Pins
-const int buttonPin = 3;
-const int soilPin   = 26;
-
-// Globals
-bool lastButtonState = HIGH;
-bool emailSentThisMinute = false;
-int lastMinute = -1;
-
-// Network
-
-
-
-WiFiClientSecure ssl_client;
-SMTPClient smtp(ssl_client);
-WiFiClient espClient;
-PubSubClient client(espClient);
-SMTPMessage msg;
-
-
-
-// ---------- SOIL SENSOR ----------
-String readSoil() {
-    int soilValue = analogRead(soilPin);
-    if (soilValue < 100) return "Error reading soil sensor.";
-    else if (soilValue <= 300) return "Soil Moisture: " + String(soilValue) + ". Soil is too wet.";
-    else if (soilValue <= 500) return "Soil Moisture: " + String(soilValue) + ". Soil is just right.";
-    else return "Soil Moisture: " + String(soilValue) + ". Soil is too dry.";
-} 
-/* // ---------- TEMP + HUMITY SENSOR ----------
-String readTemp() {
-    float tempValue = dht.readTemperature(true); // °F
-    float humidityValue = dht.readHumidity();
-    return "It is " + String(tempValue) + "°F in the area and humidity is " + String(humidityValue) + "%";
-} */
-
-void pushMQTT() {
-    String commit = readSoil() + " | " + Time();
-    client.publish("Soil_Sensor/topic", commit.c_str());
-}
-
-void connectMQTT() {
-    while (!client.connected()) {
-        client.connect("PicoWClient");
-        delay(5000);
-    }
-}
-
-// ---------- WIFI ----------
-void connectWiFi() {
-    if (WiFi.status() == WL_CONNECTED) return;
-
-    Serial.print("Connecting to Wi-Fi: ");
-    Serial.println(ssid);
-    WiFi.begin(ssid, password);
-
-    unsigned long startAttempt = millis();
-    while (WiFi.status() != WL_CONNECTED && millis() - startAttempt < 30000) {
-        Serial.print(".");
-        delay(500);
-    }
-
-    if (WiFi.status() == WL_CONNECTED) {
-        Serial.println("\n✅ Wi-Fi connected!");
-        Serial.print("IP Address: "); Serial.println(WiFi.localIP());
-        ssl_client.setInsecure(); // ⚠️ only for testing, or use 
-        //ssl_client.setCACert(root_ca);
-    } else {
-          Serial.print("\n❌ Failed to connect, status: "); 
-          Serial.println(WiFi.status());    }
-}
-
-void maintainWiFi() {
-    static unsigned long lastWiFiAttempt = 0;
-    const unsigned long wifiRetryInterval = 15000;
-    if (WiFi.status() != WL_CONNECTED && millis() - lastWiFiAttempt > wifiRetryInterval) {
-        lastWiFiAttempt = millis();
-        connectWiFi();
-    }
-}
-
-// ---------- EMAIL ----------
 void sendEmail(String subject, String body, String to) {
-    msg.headers.clear();
-    msg.headers.add(rfc822_from, "Zpiprojects <Zpiprojects@gmail.com>");
-    msg.headers.add(rfc822_to, to);
-    msg.headers.add(rfc822_subject, subject);
-    msg.text.body(body);
-    msg.timestamp = time(nullptr);
-
-    auto statusCallback = [](SMTPStatus status) {
-        Serial.print("[SMTP] "); Serial.println(status.text);
-    };
-
+    Serial.println("📧 Preparing to send email...");
+    
+    Session_Config config;
+    config.server.host_name = "smtp.gmail.com";
+    config.server.port = 465;
+    config.login.email = EMAIL_USER;
+    config.login.password = EMAIL_APP_PASSWORD;
+    config.login.user_domain = "";
+    config.secure.startTLS = false;
+    
+    config.time.ntp_server = "pool.ntp.org,time.nist.gov";
+    config.time.gmt_offset = -5;
+    config.time.day_light_offset = 1;
+    
+    SMTP_Message message;
+    message.sender.name = "Arduino Plant Monitor";
+    message.sender.email = EMAIL_USER;
+    message.subject = subject.c_str();
+    message.addRecipient("Caleb", to.c_str());
+    message.text.content = body.c_str();
+    message.text.charSet = "us-ascii";
+    message.text.transfer_encoding = Content_Transfer_Encoding::enc_7bit;
+    message.priority = esp_mail_smtp_priority::esp_mail_smtp_priority_normal;
+    
     Serial.println("📧 Connecting to SMTP server...");
-    if (smtp.connect("smtp.gmail.com", 465, statusCallback)) {
-        smtp.authenticate(EMAIL_USER, EMAIL_APP_PASSWORD, readymail_auth_password);
-        if (smtp.send(msg)) Serial.println("✅ Email sent successfully!");
-        else Serial.println("❌ Failed to send email.");
+    if (!smtp.connect(&config)) {
+        Serial.println("❌ SMTP connection failed!");
+        Serial.println("Error: " + smtp.errorReason());
+        return;
+    }
+    
+    if (!MailClient.sendMail(&smtp, &message)) {
+        Serial.println("❌ Email send failed!");
+        Serial.println("Error: " + smtp.errorReason());
     } else {
-        Serial.println("❌ Failed to connect to Gmail SMTP.");
+        Serial.println("✅ Email sent successfully!");
     }
-}
-// ---------- TIME SYNC ----------
-time_t syncTime() {
-    // Ensure Wi-Fi is connected first
-    if (WiFi.status() != WL_CONNECTED) connectWiFi();
-
-    // Set timezone for EST/EDT
-    setenv("TZ", "EST5EDT,M3.2.0,M11.1.0", 1);
-    tzset();
-
-    // Configure NTP servers
-    configTime(0, 0, "pool.ntp.org", "time.nist.gov");
-
-    // Wait for NTP sync (max 30s)
-    Serial.print("Syncing time");
-    time_t now = time(nullptr);
-    unsigned long start = millis();
-    while (now < 100000 && millis() - start < 30000) {
-        Serial.print(".");
-        delay(100);
-        now = time(nullptr);
-    }
-    Serial.println("\n⏱️ Time synced!");
-
-    // Print current local time
-    struct tm *timeinfo = localtime(&now);
-    Serial.printf("Current time: %02d:%02d:%02d\n", timeinfo->tm_hour, timeinfo->tm_min, timeinfo->tm_sec);
-
-    return now; // return current time
-}
-// ---------- TIME ----------
-
-String Time() {
-    time_t now = time(nullptr);              // get current epoch time
-    struct tm *timeinfo = localtime(&now);   // convert to local time
-
-    char buffer[20];
-    strftime(buffer, sizeof(buffer), "%Y-%m-%d %H:%M:%S", timeinfo); // format: YYYY-MM-DD HH:MM:SS
-
-    return String(buffer);                   // return as Arduino String
+    
+    smtp.closeSession();
 }
 
-// ---------- BUTTON ----------
-void checkButton() {
-    bool buttonState = digitalRead(buttonPin);
-    if (buttonState == LOW && lastButtonState == HIGH) {
-        Serial.println("🔘 Button pressed! Sending email...");
-        digitalWrite(LED_BUILTIN, HIGH);
-        sendEmail("Button Pressed", "Button was pressed!\n" + readSoil()/* + readTemp()*/, "Caleb.Zaleski@icloud.com");
-        digitalWrite(LED_BUILTIN, LOW);
-    }
-    lastButtonState = buttonState;
-}
-
-// ---------- SCHEDULED EMAIL ----------
 void checkScheduledEmail() {
     time_t now = time(nullptr);
     struct tm *timeinfo = localtime(&now);
     int hour = timeinfo->tm_hour;
     int minute = timeinfo->tm_min;
 
-    // Define scheduled times
     const int scheduledHours[] = {7, 13, 18, 19, 21};
-    const int scheduledMinutes[] = {0, 0, 0, 0, 0}; // 7:00, 15:00, 19:56
+    const int scheduledMinutes[] = {0, 0, 0, 0, 0};
 
     for (int i = 0; i < 5; i++) {
         if (hour == scheduledHours[i] && minute == scheduledMinutes[i] && !emailSentThisMinute) {
-            sendEmail("Scheduled Soil Update", "Scheduled soil reading:\n" + readSoil()/* + readTemp()*/, "Caleb.Zaleski@icloud.com");
+            sendEmail("Scheduled Soil Update", "Scheduled soil reading:\n" + readSoil(), "Caleb.Zaleski@icloud.com");
             emailSentThisMinute = true;
         }
     }
 
-    // Reset flag when minute changes
     if (minute != lastMinute) {
         emailSentThisMinute = false;
         lastMinute = minute;
     }
 }
 
-// ---------- SETUP ----------
-void setup() {
-    Serial.begin(115200);
-    pinMode(LED_BUILTIN, OUTPUT);
-    pinMode(buttonPin, INPUT_PULLUP);
-    digitalWrite(LED_BUILTIN, LOW);
-    client.setServer(mqtt_server, 1883);
-    digitalWrite(LED_BUILTIN, HIGH);
-    digitalWrite(LED_BUILTIN, LOW);
-    delay(1000);
 
-
-    //dht.begin();          // Initialize the sensor
-
-
-    // Keep trying to connect to Wi-Fi until successful
-    while (WiFi.status() != WL_CONNECTED) {
-        connectWiFi();
-        if (WiFi.status() != WL_CONNECTED) {
-            // Blink LED to show retry
-            digitalWrite(LED_BUILTIN, HIGH);
-            delay(250);
-            digitalWrite(LED_BUILTIN, LOW);
-            delay(250);
-            Serial.println("Retrying Wi-Fi in 5 seconds...");
-            delay(5000);
-        }
-    }
-    
-    connectMQTT();
-    
-    // Wi-Fi connected, sync time
-    time_t now = syncTime();
-
-    // Send startup email only after Wi-Fi is ready
-    sendEmail("Pico W Online", "Device started successfully.\n" + readSoil()/* + readTemp()*/, "Caleb.Zaleski@icloud.com");
-}
-// ---------- LOOP ----------
-void loop() {
-
-    maintainWiFi();
-
-    // Optionally re-sync NTP every hour or so
-    static unsigned long lastSync = 0;
-    if (millis() - lastSync > 3600000) { // every 1 hour
-        syncTime();
-        lastSync = millis();
-    }
-
-    // Use local time for scheduled emails
-    checkScheduledEmail();
-    checkButton();
-
-    if (!client.connected()) {
-        connectMQTT();   // reconnect if needed
-    }
-    client.loop();  
-
-
-    if (i == 600) {
-    pushMQTT();
-    i = 1;
-    }
-    
-    
-    i++;
-
-    delay(100); // .1 second
-
-
-}
