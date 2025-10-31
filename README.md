@@ -1,12 +1,13 @@
-# 🌱 Arduino Plant Monitoring System
-
 <div align="center">
+
+# 🌱 Arduino Plant Monitoring System
 
 **A personal IoT plant care solution**
 
-
 *An open-source, janky-but-functional plant monitoring system*
 
+[![Arduino](https://img.shields.io/badge/Arduino-00979D?style=for-the-badge&logo=Arduino&logoColor=white)](https://www.arduino.cc)
+[![Raspberry Pi](https://img.shields.io/badge/Raspberry%20Pi-A22846?style=for-the-badge&logo=Raspberry%20Pi&logoColor=white)](https://www.raspberrypi.org)
 
 </div>
 
@@ -25,32 +26,26 @@ This is my personal plant monitoring system project. Yes, it's a bit "janky" –
 ### Prerequisites
 
 #### Software
-- **Arduino IDE** - [Download Here](https://www.arduino.cc)
+**[Arduino IDE](https://www.arduino.cc)**
 
-#### Hardware Required
+#### Hardware Requirements
 
 | Component | Description | Link |
 |-----------|-------------|------|
-| 🎛️ **Microcontroller** | Raspberry Pi Pico W/WH or Arduino (~$10) | [Amazon Link](https://a.co/d/4aHICb4) |
+| 🎛️ **Microcontroller** | Raspberry Pi Pico W/WH or Arduino (~$10) | [Link](https://a.co/d/4aHICb4) |
+| 🌍 **Soil Sensor** | Corrosion-resistant capacitive sensor ⚠️ | [Link](https://a.co/d/7zGgF1j) |
 | 🍞 **Breadboard** | Solderless breadboard (recommended for beginners) | - |
 | 🔌 **Jumper Wires** | For breadboard connections | - |
-| 🌍 **Soil Sensor** | Corrosion-resistant capacitive sensor ⚠️ | [See below](#sensor-warning) |
 
-> **💡 Pro Tip:** Get a Pico WH model – the "H" means headers are pre-soldered, making it plug-and-play!
+>  **I used a Pico W**
 
----
+> **DO NOT use cheap resistive sensors for long-term projects!**
 
-### ⚠️ Sensor Warning
+> **"H" means headers are pre-soldered, making it plug-and-play!**
 
-**DO NOT use cheap resistive sensors for long-term projects!**
 
-❌ **Avoid:** [Cheap oxidizing sensors](https://a.co/d/iOuQ6Mj) – These work for ~1 week before corroding
 
-✅ **Use:** [Corrosion-resistant capacitive sensors](https://a.co/d/7zGgF1j) – Built for longevity
-
----
-
-## 🔧 Optional Components
+## 🔧 Optional Hardware Pieces
 
 ### Automatic Watering System *(Coming Soon)*
 - **3V DC Water Pump** - Submersible, 1 meter vertical
@@ -80,7 +75,7 @@ Ensure your Raspberry Pi or Arduino has:
 
 ---
 
-## 📞 Contact me
+## 📞 Contact Me
 
 📧 Email: [zPiProjects@gmail.com](mailto:zPiProjects@gmail.com)
 
@@ -95,12 +90,46 @@ Ensure your Raspberry Pi or Arduino has:
 | MQTT Integration | 📋 Planned |
 | Web Dashboard | 💡 Idea Stage |
 
+---
+
+## 📋 Setup Guide
+
+### Step 1: Install & Open **[Arduino IDE](https://www.arduino.cc)**
+#### Plug in your Microcontroller to your computer.
+
+### Step 2: Download/Clone the Repo
+#### Method 1: Download ZIP
+
+1. Go to the project page
+2. Click the green **Code** button
+3. Click **Download ZIP**
+4. Find the ZIP in your Downloads folder
+5. Right-click → **Extract All**
+
+ #### Method 2: Clone
+ 
+   `git clone https://github.com/calebzaleski/Ardunio-Plant-Project.git`
+
+   then to update later: `git pull`
+
+> make sure you have git installed and are in the right /cd
+
+#### Open the .ino file in Ardunio IDE.
+
+### Step 3: ...
 
 ---
 
-<div align="center">
+
+## 📚 Resources
+
+- [Arduino Pico Documentation](https://arduino-pico.readthedocs.io/)
+- [Capacitive Soil Sensor Guide](https://how2electronics.com/capacitive-soil-moisture-sensor-arduino/)
+- [MQTT Setup Tutorial](https://randomnerdtutorials.com/esp8266-and-node-red-with-mqtt/)
+
+---
 
 
-
+</div>
 
 
