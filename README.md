@@ -1,43 +1,104 @@
-# Arduino Plant Project
+# 🌱 Arduino Plant Monitoring System
 
-Hello everyone, my name is **Caleb** and this is my own personal plant monitoring system so it is very "janky". Very Basic coding head-knowledge is required to understand this project.
+<div align="center">
 
-
-Help would be greatly appreciated and is always welcome. You can reach me at [zPiProjects Email](mailto:zPiProjects@gmail.com)
-
-Pre-requisites:
+**A personal IoT plant care solution**
 
 
-1. Arduino IDE
-https://www.arduino.cc
-
-2. Raspberry Pi Pico 1 or 2, W or WH OR an Arduino . They are cheep on amazon like $10. I used a Pico W and recommend a WH model so you can plug and play. https://a.co/d/4aHICb4 ("H" means it has headers pre soldered on)
-
-3. Solder-less Breadboard is easer to start this project with but both can be used.
-
-4. Wires for the breadboard.
-
-5. Soil Sensor. I started off with these: https://a.co/d/iOuQ6Mj each one works for about a week but then oxidizes, DO NOT BUY FOR LONG TERM USE. A CORROSION RESISTANT SENSOR IS A MUST: https://a.co/d/7zGgF1j
-
-OPTIONAL. I used a Submersible 3V DC Water Pump - 1 Meter Vertical Type: https://www.adafruit.com/product/4547 to water my plant when it gets low. (Coming soon)
-
-OPTIONAL. Any Raspberry Pi that can run a MQTT server Github link: https://github.com/eclipse-mosquitto/mosquitto 
-
-Raspberry Pi Zero
-Raspberry Pi Zero W
-Raspberry Pi Zero 2 W
-Raspberry Pi 1
-Raspberry Pi 2
-Raspberry Pi 3
-Raspberry Pi 4
-Raspberry Pi 400
-
-Note: Please note that I am assuming that you are powering your Pi's or Arduino's with sufficient power. If you don't (which I have experienced plenty of hair pulling hours due to) IT WILL NOT RUN CORRECTLY.
+*An open-source, janky-but-functional plant monitoring system*
 
 
+</div>
+
+---
+
+## 📖 About
+
+This is my personal plant monitoring system project. Yes, it's a bit "janky" – but it works! Basic coding knowledge is helpful but not required. I'm always looking for contributors and improvements.
+
+> **🤝 Contributions Welcome!** Have ideas? Found a bug? Want to improve the code? Please reach out!
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+#### Software
+- **Arduino IDE** - [Download Here](https://www.arduino.cc)
+
+#### Hardware Required
+
+| Component | Description | Link |
+|-----------|-------------|------|
+| 🎛️ **Microcontroller** | Raspberry Pi Pico W/WH or Arduino (~$10) | [Amazon Link](https://a.co/d/4aHICb4) |
+| 🍞 **Breadboard** | Solderless breadboard (recommended for beginners) | - |
+| 🔌 **Jumper Wires** | For breadboard connections | - |
+| 🌍 **Soil Sensor** | Corrosion-resistant capacitive sensor ⚠️ | [See below](#sensor-warning) |
+
+> **💡 Pro Tip:** Get a Pico WH model – the "H" means headers are pre-soldered, making it plug-and-play!
+
+---
+
+### ⚠️ Sensor Warning
+
+**DO NOT use cheap resistive sensors for long-term projects!**
+
+❌ **Avoid:** [Cheap oxidizing sensors](https://a.co/d/iOuQ6Mj) – These work for ~1 week before corroding
+
+✅ **Use:** [Corrosion-resistant capacitive sensors](https://a.co/d/7zGgF1j) – Built for longevity
+
+---
+
+## 🔧 Optional Components
+
+### Automatic Watering System *(Coming Soon)*
+- **3V DC Water Pump** - Submersible, 1 meter vertical
+- [Adafruit Link](https://www.adafruit.com/product/4547)
+
+### MQTT Server Setup *(Optional)*
+Run an MQTT broker for wireless data transmission using any Raspberry Pi:
+```
+Compatible Models:
+├── Raspberry Pi Zero (W/2W)
+├── Raspberry Pi 1-4
+└── Raspberry Pi 400
+```
+
+📦 **MQTT Server:** [Eclipse Mosquitto](https://github.com/eclipse-mosquitto/mosquitto)
+
+---
+
+## ⚡ Power Requirements
+
+> **🔴 CRITICAL:** Insufficient power causes mysterious failures and hours of debugging frustration!
+
+Ensure your Raspberry Pi or Arduino has:
+- Adequate power supply (5V, 2.5A+ recommended for Pi)
+- Quality USB cable (avoid cheap cables with voltage drop)
+- Stable power source
+
+---
+
+## 📞 Contact me
+
+📧 Email: [zPiProjects@gmail.com](mailto:zPiProjects@gmail.com)
+
+---
+
+## 🎯 Project Status
+
+| Feature | Status |
+|---------|--------|
+| Soil Moisture Monitoring | ✅ Working |
+| Automatic Watering | 🚧 In Progress |
+| MQTT Integration | 📋 Planned |
+| Web Dashboard | 💡 Idea Stage |
 
 
+---
 
+<div align="center">
 
 
 
