@@ -17,7 +17,8 @@
 
 This is my personal plant monitoring system project. Yes, it's a bit "janky" – but it works! Basic coding knowledge is helpful but not required. I'm always looking for contributors and improvements.
 
-> **🤝 Contributions Welcome!** Have ideas? Found a bug? Want to improve the code? Please reach out!
+> **🤝 Contributions Welcome!** Have ideas? Found a bug? Want to improve the code? Please reach out to me through **<a href="mailto:zPiProjects@gmail.com" style="color: black;">Email</a>**
+---
 
 ---
 
@@ -32,8 +33,8 @@ This is my personal plant monitoring system project. Yes, it's a bit "janky" –
 
 | Component | Description | Link |
 |-----------|-------------|------|
-| 🎛️ **Microcontroller** | Raspberry Pi Pico W/WH or Arduino (~$10) | [Link](https://a.co/d/4aHICb4) |
-| 🌍 **Soil Sensor** | Corrosion-resistant capacitive sensor ⚠️ | [Link](https://a.co/d/7zGgF1j) |
+| 🎛️ **Microcontroller** | Raspberry Pi Pico W/WH or Arduino (~$10) | [Amazon](https://a.co/d/4aHICb4) |
+| 🌍 **Soil Sensor** | Corrosion-resistant capacitive sensor ⚠️ | [Amazon](https://a.co/d/7zGgF1j) |
 | 🍞 **Breadboard** | Solderless breadboard (recommended for beginners) | - |
 | 🔌 **Jumper Wires** | For breadboard connections | - |
 
@@ -75,17 +76,13 @@ Ensure your Raspberry Pi or Arduino has:
 
 ---
 
-## 📞 Contact Me
-
-📧 Email: [zPiProjects@gmail.com](mailto:zPiProjects@gmail.com)
-
----
 
 ## 🎯 Project Status
 
 | Feature | Status |
 |---------|--------|
 | Soil Moisture Monitoring | ✅ Working |
+| Dayily Email Report | ✅ Working |
 | Automatic Watering | 🚧 In Progress |
 | MQTT Integration | 📋 Planned |
 | Web Dashboard | 💡 Idea Stage |
