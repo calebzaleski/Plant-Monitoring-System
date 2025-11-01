@@ -52,17 +52,24 @@ void checkScheduledEmail() {
     const int scheduledHours[] = {7, 13, 18, 19, 21};
     const int scheduledMinutes[] = {0, 0, 0, 0, 0};
 
-    for (int i = 0; i < 5; i++) {
-        if (hour == scheduledHours[i] && minute == scheduledMinutes[i] && !emailSentThisMinute) {
-            sendEmail("Scheduled Soil Update", "Scheduled soil reading:\n" + readSoil(), "Caleb.Zaleski@icloud.com");
-            emailSentThisMinute = true;
-        }
-    }
-
     if (minute != lastMinute) {
         emailSentThisMinute = false;
         lastMinute = minute;
     }
+
+    if (emailSentThisMinute) {
+        return;
+    }
+
+    for (int i = 0; i < 5; i++) {
+        if (hour == scheduledHours[i] && minute == scheduledMinutes[i] && !emailSentThisMinute) {
+                    emailSentThisMinute = true;
+            sendEmail("Scheduled Soil Update", "Scheduled soil reading:\n" + readSoil(), "Caleb.Zaleski@icloud.com");
+            break;
+        }
+    }
+
+    
 }
 
 
