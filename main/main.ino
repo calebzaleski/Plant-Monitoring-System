@@ -4,7 +4,7 @@
 //Project Libraries
 #include "wifi.h"
 #include "config.h"
-
+/*
 //Arduino Libraries 
 #include <Arduino.h>
 #include <WiFi.h>
@@ -12,6 +12,8 @@
 #include <DHT.h>
 #include <ESP_Mail_Client.h> 
 #include <PubSubClient.h>
+#include <PlantMonitor.h>
+ 
 
 // --- Forward declarations (so compiler knows about these functions) ---
 void connectWiFi();
@@ -24,6 +26,7 @@ void checkButton();
 time_t syncTime();
 String Time();
 String readSoil();
+*/
 
 // ---------- BUTTON ----------
 void checkButton() {
@@ -43,6 +46,7 @@ void setup() {
     pinMode(LED_BUILTIN, OUTPUT);
     pinMode(buttonPin, INPUT_PULLUP);
     digitalWrite(LED_BUILTIN, LOW);
+     
 
     client.setServer(mqtt_server, 1883);
 
