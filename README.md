@@ -11,20 +11,23 @@
 
 </div>
 
----
+
 
 ## 📖 About
 
-This is my personal plant monitoring system project. Yes, it's a bit "janky" – but it works! Basic coding knowledge is helpful but not required. I'm always looking for contributors and improvements.
+This is my personal plant monitoring system project. Yes, it's a bit "janky" – but it works! This project is very beginer friendly and I suggest that you dont just follow the steps, but rather look though the code and try to understand everything. I tried to make it very simple and easy to navigate for this purpose. It can seem like its a big project, but with some time you can easily figure it out! **This project is comeplety safe for you home internet as it does not require any port fowarding or tampering with network controls**.
 
-> **🤝 Contributions Welcome!** Have ideas? Found a bug? Want to improve the code? Please reach out to me through **<a href="mailto:zPiProjects@gmail.com" style="color: black;">Email</a>**
+> **Contributions Welcome!** Have ideas? Found a bug? Want to improve the code? Please reach out to me through **<a href="mailto:zPiProjects@gmail.com" style="color: black;">Email</a>**
+
+
 ---
 
----
-
-## 🚀 Getting Started
+##  Getting Started
 
 ### Prerequisites
+
+#### Gmail account
+>Other accounts can be used but I have not tested them because Gmail is just so easy to set up.
 
 #### Software
 **[Arduino IDE](https://www.arduino.cc)**
@@ -33,66 +36,52 @@ This is my personal plant monitoring system project. Yes, it's a bit "janky" –
 
 | Component | Description | Link |
 |-----------|-------------|------|
-| 🎛️ **Microcontroller** | Raspberry Pi Pico W/WH or Arduino (~$10) | [Amazon](https://a.co/d/4aHICb4) |
-| 🌍 **Soil Sensor** | Corrosion-resistant capacitive sensor ⚠️ | [Amazon](https://a.co/d/7zGgF1j) |
-| 🍞 **Breadboard** | Solderless breadboard (recommended for beginners) | - |
-| 🔌 **Jumper Wires** | For breadboard connections | - |
+|  **Microcontroller** | Raspberry Pi Pico W/WH or Arduino (~$10) | [Amazon](https://a.co/d/4aHICb4) |
+|  **Soil Sensor** | Corrosion-resistant capacitive sensor ⚠️ | [Amazon](https://a.co/d/7zGgF1j) |
+|  **Breadboard** | Solderless breadboard (recommended for beginners) | - |
+|  **Jumper Wires** | For breadboard connections | - |
 
 >  **I used a Pico W**
 
 > **DO NOT use cheap resistive sensors for long-term projects!**
 
-> **"H" means headers are pre-soldered, making it plug-and-play!**
+> **"H" means headers are pre-soldered**
+
+### Optional Hardware and Software 
+
+| Component | Description | Link |
+|-----------|-------------|------|
+|  **Water Pump** | 3V DC submersible pump, 1 meter vertical lift | [Adafruit](https://www.adafruit.com/product/4547) |
+|  **Push Button** | Manual watering control button | - |
 
 
+ **MQTT Server:** [Eclipse Mosquitto](https://github.com/eclipse-mosquitto/mosquitto)
+>Check running requirements. You will also need a second device.
 
-## 🔧 Optional Hardware Pieces
-
-### Automatic Watering System *(Coming Soon)*
-- **3V DC Water Pump** - Submersible, 1 meter vertical
-- [Adafruit Link](https://www.adafruit.com/product/4547)
-
-### MQTT Server Setup *(Optional)*
-Run an MQTT broker for wireless data transmission using any Raspberry Pi:
-```
-Compatible Models:
-├── Raspberry Pi Zero (W/2W)
-├── Raspberry Pi 1-4
-└── Raspberry Pi 400
-```
-
-📦 **MQTT Server:** [Eclipse Mosquitto](https://github.com/eclipse-mosquitto/mosquitto)
-
----
-
-## ⚡ Power Requirements
-
-> **🔴 CRITICAL:** Insufficient power causes mysterious failures and hours of debugging frustration!
-
-Ensure your Raspberry Pi or Arduino has:
-- Adequate power supply (5V, 2.5A+ recommended for Pi)
-- Quality USB cable (avoid cheap cables with voltage drop)
-- Stable power source
 
 ---
 
 
-## 🎯 Project Status
+##  Project Status
 
 | Feature | Status |
 |---------|--------|
 | Soil Moisture Monitoring | ✅ Working |
-| Dayily Email Report | ✅ Working |
-| Automatic Watering | 🚧 In Progress |
-| MQTT Integration | 📋 Planned |
+| Daily Email Report | ✅ Working |
+| MQTT Integration | 📋 In Progress |
+| Automatic Watering | 🚧  | Planned |
 | Web Dashboard | 💡 Idea Stage |
 
 ---
 
-## 📋 Setup Guide
+##  Setup Guide
 
-### Step 1: Install & Open **[Arduino IDE](https://www.arduino.cc)**
-#### Plug in your Microcontroller to your computer.
+### Step 1: Setup
+
+**1.1** Download **[Arduino IDE](https://www.arduino.cc)**
+**1.2** Open Ardunio IDE
+**1.3** Plug in your Microcontroller to your computer.
+
 
 ### Step 2: Download/Clone the Repo
 #### Method 1: Download ZIP
@@ -103,21 +92,110 @@ Ensure your Raspberry Pi or Arduino has:
 4. Find the ZIP in your Downloads folder
 5. Right-click → **Extract All**
 
- #### Method 2: Clone
+ #### Method 2: Clone & Open
  
-   `git clone https://github.com/calebzaleski/Ardunio-Plant-Project.git`
+   ```git clone https://github.com/calebzaleski/Ardunio-Plant-Project.git```
 
-   then to update later: `git pull`
+   then to update later: ```git pull```
 
-> make sure you have git installed and are in the right /cd
+>  ake sure you have git installed.
 
-#### Open the .ino file in Ardunio IDE.
+#### Open the .ino file in Ardunio IDE
 
-### Step 3: ...
+### Step 3: Include the Libraries
+
+#### Here we are going to include the libraries for the project
+
+**3.1** Navigate to Library Manager in Arduino IDE by clicking the icon on the left with the books or by Sketch > Include Library > Manage Libraries. 
+
+**3.2** Search for `ESP_mail_Client` by Mobizt and `PubSubClient` by Nick O'Leary and add both of them.
+
+**3.3** Go to [Plant Sensor Library](https://github.com/monkmakes/mm_plant_monitor) click Code > download .ZIP
+
+**3.4** Next in Arduino IDE, Sketch > Include Library > add .ZIP library, and navigate to the file you just downloaded.
+>Sometimes it downloads in a folder so just compress it and add the ZIP.
+
+### Step 4: Configuration
+
+#### Here you will configure the project to your own needs.
+>since this is a plain text file, do not share it!
+
+**4.1** Navigate to `wifi_example.h` and then click the 3 dots on the right side and rename it to `wifi.h`
+
+**4.2** Where it says ssid and password, put your network name and password inside of the ""
+
+**4.3** Where it says EMAIL_USER and EMAIL_APP_PASSWORD put in your Gmail address and then your app specific password.
+>Make sure you generate an app specific password, it will not work if you use your regular password [Google Passwords](https://support.google.com/accounts/answer/185833).
+
+### Step 5: Connecting of the Pins
+
+#### Here we will connect all the pins! Plan to spend some time doing this.
+>make sure you have your breadboard and jumper wires ready.
+
+>A *pinout* can be googled for Arduino's and Raspberry Pi's so you can figure out what pins I am refering 2.
+
+
+<div style="display: flex; gap: 20px; align-items: flex-start;">
+
+<div>
+
+### Connections
+<table>
+<tr>
+<td valign="top">
+
+
+| TO | FROM |
+|-----------|--------------|
+|Button|GP3/5|
+|Button|- on breadboard|
+|Pico/Arduino 3V3(Out)|+ on breadboard|
+|Pico/Arduino GND|- on breadboard|
+|GP17/UARTO_RX/22|TX on Soil Sensor|
+|GP16/UARTO_TX/21|RX on Soil Sensor|
+|+ on Soil Sensor|+ on breadboard|
+|GND on Soil sensor|- on breadboard|
+
+</td>
+<td valign="top">
+
+<img width="600" alt="Circuit Diagram" src="https://github.com/user-attachments/assets/511e66e1-5a49-4ff6-92a3-535e94c75150" />
+
+</td>
+</tr>
+</table>
+
+### Step 6: Set up MQTT server (Optional).
+
+Im not going to walk you through how to do that here since that is optional, but I do have it set up to publish it to `Soil_Sensor/topic` Be sure to change the MQTT server in config.ino to match your server IP address.
+> Use `mosquitto_sub -h 192.168.1.*** -t "Soil_Sensor/topic"` to check the readings or download and MQTT app on your phone.
+> I have it set to publish every minute.
+
+
+### Step 7: Setting daily checkings and flashing.
+
+**7.1** Navigate over to email.ino and find `const int scheduledHours[] = {7, 13, 18, 19, 21};` and `const int scheduledMinutes[] = {0, 0, 0, 0, 0};` Here you can replace the values. It is the 1st hour to the first minute and so on. If you want more or less check-ins make sure you change `for (int i = 0; i < 5; i++)` Replace the 5 with the # of check-ins
+
+**7.2**
+if you are not using a MQTT server, navigate to main.ino. In `void setup()` remove `connectMQTT();` and in `void loop()` remove
+```
+   connectMQTT():
+    if (i == 600) {
+      pushMQTT();
+      i = 1;
+    } 
+    
+    i++;
+```
+
+
+**7.3** Click the arrow pointing to the right or do `cmd + U` to upload your sketch to the microcontroller. Wait for it to finish flashing, uplug from your computer and plug into a long term power supply.
+
+### CONGRATS YOU MADE IT TO THE END. PRESS THE BUTTON TO ADMIRE YOUR WORK!
 
 ---
 
-
+ 
 ## 📚 Resources
 
 - [Arduino Pico Documentation](https://arduino-pico.readthedocs.io/)
