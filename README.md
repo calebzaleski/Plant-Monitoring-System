@@ -1,6 +1,6 @@
 <div align="center">
 
-# Arduino Plant Monitoring System
+# Plant Monitoring System
 
 **A personal IoT plant care solution**
 
@@ -77,7 +77,9 @@ This is my personal plant monitoring system project. Yes, it's a bit "janky" –
 ### Step 1: Setup
 
 **1.1** Download **[Arduino IDE](https://www.arduino.cc)**
+
 **1.2** Open Arduino IDE
+
 **1.3** Plug in your Microcontroller to your computer.
 
 
@@ -116,14 +118,15 @@ This is my personal plant monitoring system project. Yes, it's a bit "janky" –
 ### Step 4: Configuration
 
 #### Here you will configure the project to your own needs.
->since this is a plain text file, do not share it!
 
 **4.1** Navigate to `wifi_example.h` and then click the 3 dots on the right side and rename it to `wifi.h`
 
 **4.2** Where it says ssid and password, put your network name and password inside of the ""
 
-**4.3** Where it says EMAIL_USER and EMAIL_APP_PASSWORD put in your Gmail address and then your app specific password.
+**4.3** Where it says `EMAIL_USER` and `EMAIL_APP_PASSWORD` put in your Gmail address and then your app specific password.
 >Make sure you generate an app specific password, it will not work if you use your regular password [Google Passwords](https://support.google.com/accounts/answer/185833).
+>since this is a plain text file, do not share it, you ***WILL*** expose your internet settings and Gmail details!
+
 
 ### Step 5: Connecting of the Pins
 
