@@ -12,9 +12,9 @@ String readSoil() {
 } 
 String readTemp() {
     int soilTemp = plantMonitor.getTemp();
-    return "Temp" + String(soilTemp)
+    return "Temp" + String(soilTemp);
 } 
 String readHumidity() {
     int soilHumidity = plantMonitor.getHumidity();
-    return "Humidity" + String(soilHumidity)
+    return "Humidity" + String(soilHumidity);
 } 
