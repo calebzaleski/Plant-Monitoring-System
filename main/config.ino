@@ -3,8 +3,11 @@
 
 
 // ---------- PIN DEFINITIONS ----------
-const int soilPin     = 26;
 const int buttonPin   = 3;
+
+// ---------- PLANT MONITOR ----------
+PlantMonitor plantMonitor(RX_PIN, TX_PIN);
+
 
 // ---------- MQTT ----------
 const char* mqtt_server = "192.168.1.30";
