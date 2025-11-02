@@ -15,7 +15,7 @@
 
 ## 📖 About
 
-This is my personal plant monitoring system project. Yes, it's a bit "janky" – but it works! This project is very beginer friendly and I suggest that you dont just follow the steps, but rather look though the code and try to understand everything. I tried to make it very simple and easy to navigate for this purpose. It can seem like its a big project, but with some time you can easily figure it out! **This project is comeplety safe for you home internet as it does not require any port fowarding or tampering with network controls**.
+This is my personal plant monitoring system project. Yes, it's a bit "janky" – but it works! This project is very beginner friendly and I suggest that you dont just follow the steps, but rather look though the code and try to understand everything. I tried to make it very simple and easy to navigate for this purpose. It can seem like its a big project, but with some time you can easily figure it out! **This project is completely safe for you home internet as it does not require any port forwarding or tampering with the network.**.
 
 > **Contributions Welcome!** Have ideas? Found a bug? Want to improve the code? Please reach out to me through **<a href="mailto:zPiProjects@gmail.com" style="color: black;">Email</a>**
 
@@ -37,10 +37,9 @@ This is my personal plant monitoring system project. Yes, it's a bit "janky" –
 | Component | Description | Link |
 |-----------|-------------|------|
 |  **Microcontroller** | Raspberry Pi Pico W/WH or Arduino (~$10) | [Amazon](https://a.co/d/4aHICb4) |
-|  **Soil Sensor** | Corrosion-resistant capacitive sensor ⚠️ | [Amazon](https://a.co/d/7zGgF1j) |
-|  **Breadboard** | Solderless breadboard (recommended for beginners) | - |
-|  **Jumper Wires** | For breadboard connections | - |
-
+|  **Soil Sensor** | Corrosion-resistant capacitive sensor ⚠️ | [Adafruit](https://www.adafruit.com/product/5587)) |
+|  **Breadboard & Jumper Wires** | Solderless breadboard (recommended for beginners) | [Amazon](https://a.co/d/diuLBDd) |
+|  **Push Button** | Manual email sending button | [Amazon](https://a.co/d/6T3IJLN) |
 >  **I used a Pico W**
 
 > **DO NOT use cheap resistive sensors for long-term projects!**
@@ -52,11 +51,8 @@ This is my personal plant monitoring system project. Yes, it's a bit "janky" –
 | Component | Description | Link |
 |-----------|-------------|------|
 |  **Water Pump** | 3V DC submersible pump, 1 meter vertical lift | [Adafruit](https://www.adafruit.com/product/4547) |
-|  **Push Button** | Manual watering control button | - |
+|  **MQTT Server** | Seperate Pi or Arduinio to run the MQTT server | [Eclipse Mosquitto](https://github.com/eclipse-mosquitto/mosquitto) |
 
-
- **MQTT Server:** [Eclipse Mosquitto](https://github.com/eclipse-mosquitto/mosquitto)
->Check running requirements. You will also need a second device.
 
 
 ---
@@ -68,9 +64,11 @@ This is my personal plant monitoring system project. Yes, it's a bit "janky" –
 |---------|--------|
 | Soil Moisture Monitoring | ✅ Working |
 | Daily Email Report | ✅ Working |
-| MQTT Integration | 📋 In Progress |
-| Automatic Watering | 🚧  | Planned |
+| MQTT Integration | ✅ Working |
+| Automatic Watering | 🚿 Planned |
 | Web Dashboard | 💡 Idea Stage |
+| Lighting | 💡 Idea Stage |
+
 
 ---
 
@@ -79,7 +77,7 @@ This is my personal plant monitoring system project. Yes, it's a bit "janky" –
 ### Step 1: Setup
 
 **1.1** Download **[Arduino IDE](https://www.arduino.cc)**
-**1.2** Open Ardunio IDE
+**1.2** Open Arduino IDE
 **1.3** Plug in your Microcontroller to your computer.
 
 
@@ -98,7 +96,7 @@ This is my personal plant monitoring system project. Yes, it's a bit "janky" –
 
    then to update later: ```git pull```
 
->  ake sure you have git installed.
+>  Make sure you have git installed.
 
 #### Open the .ino file in Ardunio IDE
 
@@ -172,12 +170,12 @@ Im not going to walk you through how to do that here since that is optional, but
 > I have it set to publish every minute.
 
 
-### Step 7: Setting daily checkings and flashing.
+### Step 7: Setting daily check-ins and flashing.
 
 **7.1** Navigate over to email.ino and find `const int scheduledHours[] = {7, 13, 18, 19, 21};` and `const int scheduledMinutes[] = {0, 0, 0, 0, 0};` Here you can replace the values. It is the 1st hour to the first minute and so on. If you want more or less check-ins make sure you change `for (int i = 0; i < 5; i++)` Replace the 5 with the # of check-ins
 
 **7.2**
-if you are not using a MQTT server, navigate to main.ino. In `void setup()` remove `connectMQTT();` and in `void loop()` remove
+if you are ***not*** using a MQTT server, navigate to main.ino. In `void setup()` remove `connectMQTT();` and in `void loop()` remove
 ```
    connectMQTT():
     if (i == 600) {
@@ -192,15 +190,18 @@ if you are not using a MQTT server, navigate to main.ino. In `void setup()` remo
 **7.3** Click the arrow pointing to the right or do `cmd + U` to upload your sketch to the microcontroller. Wait for it to finish flashing, uplug from your computer and plug into a long term power supply.
 
 ### CONGRATS YOU MADE IT TO THE END. PRESS THE BUTTON TO ADMIRE YOUR WORK!
+>If you didnt recive an email when you pressed the button check your wiring and the serial controller.
 
 ---
 
  
-## 📚 Resources
+##  Resources
 
 - [Arduino Pico Documentation](https://arduino-pico.readthedocs.io/)
+- [Ardunio IDE Documentation](https://www.arduino.cc/en/software/)
 - [Capacitive Soil Sensor Guide](https://how2electronics.com/capacitive-soil-moisture-sensor-arduino/)
 - [MQTT Setup Tutorial](https://randomnerdtutorials.com/esp8266-and-node-red-with-mqtt/)
+  
 
 ---
 
