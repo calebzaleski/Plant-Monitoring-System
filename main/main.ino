@@ -5,25 +5,7 @@
 #include "wifi.h"
 #include "config.h"
 
-//Arduino Libraries 
-#include <Arduino.h>
-#include <WiFi.h>
-#include <WiFiClientSecure.h>
-#include <DHT.h>
-#include <ESP_Mail_Client.h> 
-#include <PubSubClient.h>
 
-// --- Forward declarations (so compiler knows about these functions) ---
-void connectWiFi();
-void maintainWiFi();
-void connectMQTT();
-void pushMQTT();
-void sendEmail(String subject, String body, String to);
-void checkScheduledEmail();
-void checkButton();
-time_t syncTime();
-String Time();
-String readSoil();
 
 // ---------- BUTTON ----------
 void checkButton() {
@@ -72,7 +54,6 @@ void loop() {
       pushMQTT();
       i = 1;
     }
-    
     i++;
 
     checkScheduledEmail();
