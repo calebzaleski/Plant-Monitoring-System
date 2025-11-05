@@ -3,10 +3,10 @@
 
 
 // ---------- PIN DEFINITIONS ----------
-const int buttonPin   = 3;
+const int buttonPin   = 15;
 
 // ---------- PLANT MONITOR ----------
-PlantMonitor plantMonitor(RX_PIN, TX_PIN);
+PlantMonitor plantMonitor(Serial2);  // for pico/esp32/
 
 
 // ---------- MQTT ----------

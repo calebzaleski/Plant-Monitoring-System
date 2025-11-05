@@ -12,19 +12,28 @@ void checkButton() {
     if (buttonState == LOW && lastButtonState == HIGH) {
         Serial.println("🔘 Button pressed! Sending email...");
         digitalWrite(LED_BUILTIN, HIGH);
-        sendEmail("Button Pressed", "Button was pressed!\n" + readSoil()/* + readTemp()*/, "Caleb.Zaleski@icloud.com");
+        sendEmail("Button Pressed", "Button was pressed!\n" + readSoil() + readTemp(), "Caleb.Zaleski@icloud.com");
         digitalWrite(LED_BUILTIN, LOW);
     }
     lastButtonState = buttonState;
 }
 
 void setup() {
-    Serial.begin(115200);
 
     pinMode(LED_BUILTIN, OUTPUT);
     pinMode(buttonPin, INPUT_PULLUP);
     digitalWrite(LED_BUILTIN, LOW);
      
+
+    Serial.begin(115200);
+    
+
+// ---------- Pico Sensor Code S ----------
+    Serial2.setRX(5);    
+    Serial2.setTX(4);     
+    Serial2.begin(9600);  
+    plantMonitor.begin();   
+// ---------- Pico Sensor Code E ----------
 
     client.setServer(mqtt_server, 1883);
 
@@ -47,7 +56,11 @@ void loop() {
         syncTime();
         lastSync = millis();
     }
+    checkScheduledEmail();
+    checkButton();
 
+
+// ---------- MQTT SERVER S ----------
     connectMQTT();
 
     if (i == 600) {
@@ -56,9 +69,7 @@ void loop() {
     }
     
     i++;
-
-    checkScheduledEmail();
-    checkButton();
+// ---------- MQTT SERVER E ----------
 
     delay(100); // .1 second
 

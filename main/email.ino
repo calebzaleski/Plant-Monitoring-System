@@ -14,7 +14,7 @@ void sendEmail(String subject, String body, String to) {
     
     config.time.ntp_server = "pool.ntp.org,time.nist.gov";
     config.time.gmt_offset = -5;
-    config.time.day_light_offset = 1;
+    config.time.day_light_offset = 0;
     
     SMTP_Message message;
     message.sender.name = "Arduino Plant Monitor";
@@ -64,7 +64,7 @@ void checkScheduledEmail() {
     for (int i = 0; i < 5; i++) {
         if (hour == scheduledHours[i] && minute == scheduledMinutes[i] && !emailSentThisMinute) {
                     emailSentThisMinute = true;
-            sendEmail("Scheduled Soil Update", "Scheduled soil reading:\n" + readSoil(), "Caleb.Zaleski@icloud.com");
+            sendEmail("Scheduled Soil Update", "Scheduled soil reading:\n" + readSoil() + readTemp(), "Caleb.Zaleski@icloud.com");
             break;
         }
     }

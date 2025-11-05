@@ -5,12 +5,11 @@
 #include <ESP_Mail_Client.h> 
 #include <WiFi.h>
 #include <PubSubClient.h>
-#include <PlantMonitor.h>
+//#include <PlantMonitor.h> //for arduinos/softwareserial support
+#include "picosensor.h"  // for pi/esp32s/NO softwareserial support
 
 
 // ---------- PIN DEFINITIONS ----------
-#define RX_PIN 16  // Pico GPIO 16 - connects to sensor TX
-#define TX_PIN 17  // Pico GPIO 17 - connects to sensor RX
 extern const int buttonPin;
 
 // ---------- PLANT MONITOR ----------
@@ -40,6 +39,8 @@ void maintainWiFi();
 void connectMQTT();
 void pushMQTT();
 String readSoil();
+String readTemp();
+String readHumidity();
 void sendEmail(String subject, String body, String to);
 void checkScheduledEmail();
 void checkButton();
