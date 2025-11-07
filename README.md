@@ -15,7 +15,7 @@
 
 ## 📖 About
 
-This is my personal plant monitoring system project. Yes, it's a bit "janky" – but it works! It montiors the tempature, humity and soil moisture, and it has a water pump. This project is very beginner friendly and I suggest that you dont just follow the steps, but rather look though the code and try to understand everything. I tried to make it very simple and easy to navigate for this purpose. It can seem like its a big project, but with some time you can easily figure it out! **This project is completely safe for you home internet as it does not require any port forwarding or tampering with the network.**.
+This is my personal plant monitoring system project. Yes, it's a bit "janky" – but it works! It montiors the **tempature, humity and soil moisture, and it has a water pump.** This project is very beginner friendly and I suggest that you dont just follow the steps, but rather look though the code and try to understand everything. I tried to make it very simple and easy to navigate for this purpose. It can seem like its a big project, but with some time you can easily figure it out! **This project is completely safe for you home internet as it does not require any port forwarding or tampering with the network.**.
 
 > **Contributions Welcome!** Have ideas? Found a bug? Want to improve the code? Please reach out to me through **<a href="mailto:zPiProjects@gmail.com" style="color: black;">Email</a>**
 
