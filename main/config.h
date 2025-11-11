@@ -11,6 +11,9 @@
 
 // ---------- PIN DEFINITIONS ----------
 extern const int buttonPin;
+extern const int sensorPin;
+
+
 
 // ---------- PLANT MONITOR ----------
 extern PlantMonitor plantMonitor;

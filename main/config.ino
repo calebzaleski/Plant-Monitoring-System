@@ -4,9 +4,11 @@
 
 // ---------- PIN DEFINITIONS ----------
 const int buttonPin   = 15;
+const int sensorPin = 28;
 
 // ---------- PLANT MONITOR ----------
 PlantMonitor plantMonitor(Serial2);  // for pico/esp32/
+
 
 
 // ---------- MQTT ----------

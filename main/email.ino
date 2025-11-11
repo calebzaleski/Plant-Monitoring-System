@@ -64,7 +64,7 @@ void checkScheduledEmail() {
     for (int i = 0; i < 5; i++) {
         if (hour == scheduledHours[i] && minute == scheduledMinutes[i] && !emailSentThisMinute) {
                     emailSentThisMinute = true;
-            sendEmail("Scheduled Soil Update", "Scheduled soil reading:\n" + readSoil() + readTemp(), "Caleb.Zaleski@icloud.com");
+            sendEmail("Scheduled Soil Update", "Scheduled soil reading:\n" + readSoil()+ "Raw value:\n" + readASoil() + readTemp() + readHumidity(), "Caleb.Zaleski@icloud.com");
             break;
         }
     }

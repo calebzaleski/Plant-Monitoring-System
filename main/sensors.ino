@@ -11,6 +11,11 @@ String readSoil() {
     else return "Soil Moisture: " + String(soilValue) + ". Soil is too wet.";
 }
 
+String readASoil() {
+    int soilAValue = analogRead(sensorPin); 
+    return String(soilAValue);
+}
+
 String readTemp() {
     float soilTemp = plantMonitor.getTemp();
     return "Temp: " + String(soilTemp) + "°C";

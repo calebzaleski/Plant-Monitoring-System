@@ -12,7 +12,7 @@ void checkButton() {
     if (buttonState == LOW && lastButtonState == HIGH) {
         Serial.println("🔘 Button pressed! Sending email...");
         digitalWrite(LED_BUILTIN, HIGH);
-        sendEmail("Button Pressed", "Button was pressed!\n" + readSoil() + readTemp(), "Caleb.Zaleski@icloud.com");
+        sendEmail("Button Pressed", String("Button was pressed!") + "Raw value: " + readASoil()  + "Soil reading: " + readSoil()  + readTemp() + readHumidity(), "Caleb.Zaleski@icloud.com");
         digitalWrite(LED_BUILTIN, LOW);
     }
     lastButtonState = buttonState;
