@@ -12,13 +12,16 @@ void checkButton() {
     if (buttonState == LOW && lastButtonState == HIGH) {
         Serial.println("🔘 Button pressed! Sending email...");
         digitalWrite(LED_BUILTIN, HIGH);
-        sendEmail("Button Pressed", String("Button was pressed!") + "Raw value: " + readASoil()  + "Soil reading: " + readSoil()  + readTemp() + readHumidity(), "Caleb.Zaleski@icloud.com");
+        sendEmail("Button Pressed", String("Button was pressed!") + "Raw value: " + String(readASoil())  + "Soil reading: " + readSoil()  + readTemp() + readHumidity() + String(wtime), "Caleb.Zaleski@icloud.com");
         digitalWrite(LED_BUILTIN, LOW);
     }
     lastButtonState = buttonState;
 }
 
 void setup() {
+
+    pinMode(pumpPin, OUTPUT);
+    digitalWrite(pumpPin, LOW);
 
     pinMode(LED_BUILTIN, OUTPUT);
     pinMode(buttonPin, INPUT_PULLUP);
@@ -73,4 +76,12 @@ void loop() {
 
     delay(100); // .1 second
 
+// ---------- WATERPUMP ----------   
+ 
+if (readASoil() < 600 && x > 24000) {
+    Waterpump3_5s();
+    x = 1;
+    wtime++;
+}
+    x++;
 }

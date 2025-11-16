@@ -12,6 +12,8 @@
 // ---------- PIN DEFINITIONS ----------
 extern const int buttonPin;
 extern const int sensorPin;
+extern const int pumpPin;
+
 
 
 
@@ -23,6 +25,10 @@ extern const char* mqtt_server;
 
 // ---------- TIME ----------
 extern int i;
+extern int x;
+extern int wtime;
+
+
 extern time_t currentTime;
 
 // ---------- STATE VARIABLES ----------

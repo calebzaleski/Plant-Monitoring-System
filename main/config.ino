@@ -5,6 +5,8 @@
 // ---------- PIN DEFINITIONS ----------
 const int buttonPin   = 15;
 const int sensorPin = 28;
+const int pumpPin = 26;
+
 
 // ---------- PLANT MONITOR ----------
 PlantMonitor plantMonitor(Serial2);  // for pico/esp32/
@@ -16,6 +18,8 @@ const char* mqtt_server = "192.168.1.30";
 
 // ---------- TIME ----------
 int i = 1;
+int x = 1;
+int wtime = 0;
 time_t currentTime;
 
 // ---------- STATE VARIABLES ----------
