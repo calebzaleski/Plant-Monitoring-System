@@ -18,7 +18,7 @@ const char* mqtt_server = "192.168.1.30";
 
 // ---------- TIME ----------
 int i = 1;
-int x = 1;
+int x = 264000; //set so right when you plug in it can run the pump
 int wtime = 0;
 time_t currentTime;
 
